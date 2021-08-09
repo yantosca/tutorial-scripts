@@ -5,13 +5,13 @@ Bob Yantosca, GCST, Aug 2021
 
 ** New GEOS-Chem data servers (aka "mirrors") are online:
 
-1. U. Rochester  
+1. U. Rochester
 
 Contains the GCAP met field data.  If you are interested in running
 historical or future simulations with GEOS-Chem, then this is the data
 server to use.  (Maintained by Lee Murray's group at U. Rochester.)
 
-2. WashU @ St. Louis 
+2. WashU @ St. Louis
 
 Contains all GEOS-Chem met field & emissions data.  Will eventually
 replace the ComputeCanada server.  (Maintained by Randall Martin's
@@ -27,17 +27,16 @@ later.
 This enables these settings to be changed if necessary without having
 to hardwire them into the Python code.
 
-  
+
 * Download the GEOS-Chem Classic source code
 
 NOTE: I am on an AWS EC2 cloud instance, because it is easier for me
-to start from an empty ExtData folder.  But these same instructions
-can be done from any computer system.
+to start from an empty ExtData folder.  But you can follow my steps
+regardless of what type of computer system you are on.
 
 ** Clone the GCClassic wrapper from Github:
 
 #+BEGIN_SRC bash
-  cd /home/ubuntu/dry-run-video
   git clone https://github.com/geoschem/GCClassic.git
 #+END_SRC
 
@@ -56,9 +55,9 @@ view our video tutorials at https://youtube.com/c/geoschem
 
 * EXTRA STEP JUST FOR THIS VIDEO!
 
-NOTE: Because GEOS-Chem 13.2.1 has not yet been released at the time
-when I was making this video, I need to check out the branch where
-the 13.2.1 updates are contained.  
+NOTE: Because GEOS-Chem 13.2.1 is not yet released at this time (early
+August 2021), I need to check out the branch of the "science codebase"
+where the 13.2.1 updates are kept.
 
 #+BEGIN_SRC bash
   git -C src/GEOS-Chem checkout patch/13.2.1
@@ -72,7 +71,7 @@ the main branch, and you won't have to do this extra step.
 
 I'll navigate to the GCClassic/run folder and execute the "createRunDir.sh"
 script.  This will create a new GEOS-Chem Classic run directory from
-scratch. 
+scratch.
 
 #+BEGIN_SRC bash
   cd run
@@ -81,29 +80,29 @@ scratch.
 
 I'll follow the prompts to create a run directory (with MERRA-2 met fields,
 4 x 5 grid, and all 72 levels).  I'll create the GEOS-Chem run
-directory into my ~/dry-run-video/ folder.
+directory in my ~/dry-run-video/ folder.
 
 
 * Edit run-directory configuration files
 
-I'll will navigate to the run directory we just created
+I'll navigate to the run directory that I just created:
 
 #+BEGIN_SRC bash
   cd /home/ubuntu/dry-run-video/gc_merra2_fullchem
-  ls 
+  ls
 #+END_SRC
 
 For the purposes of this video, I'll configure GEOS-Chem Classic to
-run for a short simulation (say 3 hours).  We'll need to edit the
+run for a short simulation (say 1 hour).  We'll need to edit the
 following configuration files:
 
 ** input.geos
 
-Change end date to 20190701 030000
+Change end date to 20190701 010000
 
 ** HISTORY.rc
 
-Change frequency & duration from 00000100 000000 to 00000000 030000
+Change frequency & duration from 00000100 000000 to 00000000 010000
 
 ** HEMCO_Config.rc
 
@@ -115,7 +114,7 @@ Change "Monthly" to "End"
 I'd like to take a look at the download_data.yml file.
 
 NOTE: The YAML file is mostly meant for easy updating by the GEOS-Chem
-Support Team.  Most GEOS-Chem users won't have to touch this.
+Support Team.  GEOS-Chem users shouldn't have to edit this file.
 
 ** mirrors
 
@@ -125,18 +124,20 @@ Support Team.  Most GEOS-Chem users won't have to touch this.
 2. You can use refer to a mirror by its name or short name.
 
 3. The command will be used to download data from the mirror.
-   
-   
+
+
 ** restarts
 
 This section lists the default restart files that will be placed
-whenever you create a GEOS-Chem Classic run directory.  This 
-information used to be hardwired in download_data.py but is now kept
-in the download_data.yml file.
+into a GEOS-Chem classic run directory.
+
+The restart file paths and file names used to be hard-coded into the
+download_data.py script, but these are now kept in the
+download_data.yml file.
 
 The default restart files are usually updated at each GEOS-Chem major
-version (i.e. 12.0.0, 13.0.0, 14.0.0) and are taken from the relevant
-1-year or 10-year benchmark simulations.
+version (i.e. 12.0.0, 13.0.0, and when it happens, 14.0.0) and are
+taken from the relevant 1-year or 10-year benchmark simulations.
 
 
 * Configure and build GEOS-Chem
@@ -167,26 +168,25 @@ and we can see the "gcclassic" executable file here.
 
 * Perform the dry-run simulation
 
-I'll run GEOS-Chem dry-run mode:
+I'll now run GEOS-Chem in dry-run mode:
 
 #+BEGIN_SRC bash
   ./gcclassic --dryrun > log.dryrun
 #+END_SRC
 
 This will produce a file named "log.dryrun" (you can name it anything
-you want, but I like log.dryrun).
+you want, but I like "log.dryrun").
 
 The log.dryrun file contains a list of all the files that GEOS-Chem
-will try to read.  Each file will be marked with either "OPENING"
+will try to read.  Each file will be marked with either "Opening"
 (which means that the file is found on disk, or "REQUIRED FILE NOT
-FOUND", which means that the file has yet to be downloaded. 
+FOUND", which means that the file has yet to be downloaded.
 
 
 * Download data with the python script (download_data.py)
 
 Now that I've generated the dryrun log file (i.e log.dryrun),
 (log.dryrun), I can start the data download process.
-the download process.
 
 ** General usage
 
@@ -196,10 +196,13 @@ To download data from a particular mirror, type:
 ./download_data.py LOG MIRROR-NAME
 #+END_SRC
 
-This will download the data files to local ExtData folder.  LOG is the
-name of the dry-run log file (e.g. "log.dryrun").  MIRROR-NAME may be
-either the long or short name of the data mirror from the download_
-data.yml file.
+This will download the data files to local ExtData folder.
+
+LOG is the name of the dry-run log file (e.g. "log.dryrun").
+
+MIRROR-NAME may be either the long name (e.g. "amazon",
+"computecanada", etc.) or short name ("aws", "cc", etc) of the data
+mirror, as listed in the download_data.yml file.
 
 The download_data.py script will also generate the list of unique
 data files needed for the simulation.  This can be useful for
@@ -219,11 +222,12 @@ downloading data, you can type:
 * Example: download from the Amazon S3 bucket
 
 IMPORTANT NOTE! Only download data from the GEOS-Chem S3 bucket
-(s3://gcgrid) if you are on an AWS EC2 cloud instance! 
-Otherwise you will incur egress fees.
+(s3://gcgrid) if you are on an AWS EC2 cloud instance!  It is free to
+download from Amazon S3 to Amazon EC2, but if you download data out of
+Amazon, you will incur egress fees.
 
 But since I am are already on the AWS cloud, I can proceed to download
-data from here:
+data from the Amazon S3 bucket (s3://gcgrid):
 
 #+BEGIN_SRC emacs-lisp
 time -p ./download_data.py log.dryrun amazon
@@ -232,7 +236,7 @@ time -p ./download_data.py log.dryrun amazon
 The download process should take a few minutes.
 
 The time -p command isn't strictly necessary, but that will show us
-how long the download process takes.
+how long the download process takes.  It should take a few minutes.
 
 
 * Run GEOS-Chem
@@ -269,11 +273,14 @@ I'll start a new dry-run here and send the output to a diffrent log file.
 ** Then download data from a different mirror
 
 Now I can attempt to download the missing files from a different
-mirror, such as WashU: 
+mirror, such as WashU:
 
 #+BEGIN_SRC bash
-./download_data.py log.dryrun.2 washu 
+./download_data.py log.dryrun.2 washu
 #+END_SRC
+
+This should pick up only the files that were listed as missing in
+log.dryrun.2.
 
 
 * Run GEOS-Chem again
@@ -282,7 +289,7 @@ I'll try to run GEOS-Chem again now, that all of the missing data
 files have been downloaded.
 
 #+BEGIN_SRC bash
-./gcclassic 
+./gcclassic
 #+END_SRC
 
 And there we have it!  A bootstrapped GEOS-Chem Classic simulation
