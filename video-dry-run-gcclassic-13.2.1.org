@@ -5,19 +5,18 @@ Bob Yantosca, GCST, Aug 2021
 
 ** New GEOS-Chem data servers (aka "mirrors") are online:
 
-*** U. Rochester
+1. U. Rochester  
 
 Contains the GCAP met field data.  If you are interested in running
 historical or future simulations with GEOS-Chem, then this is the data
 server to use.  (Maintained by Lee Murray's group at U. Rochester.)
 
-*** WashU @ St. Louis
-
+2. WashU @ St. Louis 
 
 Contains all GEOS-Chem met field & emissions data.  Will eventually
 replace the ComputeCanada server.  (Maintained by Randall Martin's
 group at Washington University in St. Louis.)
-      
+
 ** Configurable settings:
 
 The Python script that downloads data (download_ data.py) now reads
@@ -58,7 +57,7 @@ view our video tutorials at https://youtube.com/c/geoschem
 * EXTRA STEP JUST FOR THIS VIDEO!
 
 NOTE: Because GEOS-Chem 13.2.1 has not yet been released at the time
-when this video was being made, I need to check out the branch where
+when I was making this video, I need to check out the branch where
 the 13.2.1 updates are contained.  
 
 #+BEGIN_SRC bash
@@ -81,8 +80,8 @@ scratch.
 #+END_SRC
 
 I'll follow the prompts to create a run directory (with MERRA-2 met fields,
-4 x 5 grid, and all 72 levels).  Let's place the dry run directory
-into our dry-run video folder (//home/ubuntu/dry-run-video/).
+4 x 5 grid, and all 72 levels).  I'll create the GEOS-Chem run
+directory into my ~/dry-run-video/ folder.
 
 
 * Edit run-directory configuration files
@@ -90,8 +89,8 @@ into our dry-run video folder (//home/ubuntu/dry-run-video/).
 I'll will navigate to the run directory we just created
 
 #+BEGIN_SRC bash
-    cd /home/ubuntu/dry-run-video/gc_merra2_fullchem
-    ls 
+  cd /home/ubuntu/dry-run-video/gc_merra2_fullchem
+  ls 
 #+END_SRC
 
 For the purposes of this video, I'll configure GEOS-Chem Classic to
@@ -126,8 +125,8 @@ Support Team.  Most GEOS-Chem users won't have to touch this.
 2. You can use refer to a mirror by its name or short name.
 
 3. The command will be used to download data from the mirror.
-
-
+   
+   
 ** restarts
 
 This section lists the default restart files that will be placed
@@ -240,7 +239,7 @@ how long the download process takes.
 
 Now that the dry-run has completed, I will try to run GEOS-Chem.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC bash
 ./gcclassic | tee GC.log
 #+END_SRC
 
@@ -267,12 +266,12 @@ I'll start a new dry-run here and send the output to a diffrent log file.
   ./gcclassic --dryrun > log.dryrun.2
 #+END_SRC
 
-** Download data from a different mirror
+** Then download data from a different mirror
 
 Now I can attempt to download the missing files from a different
 mirror, such as WashU: 
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC bash
 ./download_data.py log.dryrun.2 washu 
 #+END_SRC
 
