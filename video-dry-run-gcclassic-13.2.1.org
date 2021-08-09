@@ -19,10 +19,10 @@ group at Washington University in St. Louis.)
 
 ** Configurable settings:
 
-The Python script that downloads data (download_ data.py) now reads
+The Python script that downloads data (download_data.py) now reads
 configurable settings, such as information about data mirrors and
 default restart files, from a YAML file.  We'll take a look at this
-later. 
+later.
 
 This enables these settings to be changed if necessary without having
 to hardwire them into the Python code.
@@ -105,14 +105,14 @@ Change end date to 20190701 030000
 
 Change frequency & duration from 00000100 000000 to 00000000 030000
 
-** HEMCO_ Config.rc
+** HEMCO_Config.rc
 
 Change "Monthly" to "End"
 
 
-* View download_ data.yml file
+* View download_data.yml file
 
-I'd like to take a look at the download_ data.yml file.
+I'd like to take a look at the download_data.yml file.
 
 NOTE: The YAML file is mostly meant for easy updating by the GEOS-Chem
 Support Team.  Most GEOS-Chem users won't have to touch this.
@@ -131,8 +131,8 @@ Support Team.  Most GEOS-Chem users won't have to touch this.
 
 This section lists the default restart files that will be placed
 whenever you create a GEOS-Chem Classic run directory.  This 
-information used to be hardwired in download_ data.py but is now kept
-in the download_ data.yml file.
+information used to be hardwired in download_data.py but is now kept
+in the download_data.yml file.
 
 The default restart files are usually updated at each GEOS-Chem major
 version (i.e. 12.0.0, 13.0.0, 14.0.0) and are taken from the relevant
@@ -182,7 +182,7 @@ will try to read.  Each file will be marked with either "OPENING"
 FOUND", which means that the file has yet to be downloaded. 
 
 
-* Download data with the python script (download_ data.py)
+* Download data with the python script (download_data.py)
 
 Now that I've generated the dryrun log file (i.e log.dryrun),
 (log.dryrun), I can start the data download process.
@@ -201,7 +201,7 @@ name of the dry-run log file (e.g. "log.dryrun").  MIRROR-NAME may be
 either the long or short name of the data mirror from the download_
 data.yml file.
 
-The download_ data.py script will also generate the list of unique
+The download_data.py script will also generate the list of unique
 data files needed for the simulation.  This can be useful for
 documentation purposes.  The log of unique data files will be the same
 as your dryrun log file, with the suffix ".unique."
